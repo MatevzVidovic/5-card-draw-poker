@@ -2,6 +2,18 @@ import java.util.Scanner;
 
 public class Poker {
 
+	static double potenca (double osnova, long potenca) {
+		if (potenca < 1) {
+			return 0;
+		} else {
+			double zmnozek = 1;
+			for (long i = 0; i < potenca; i++) {
+				zmnozek *= osnova;
+			}
+			return zmnozek;
+		}
+	}
+
 
 	//jaaaaaa!!! Izracun binoma zdaj tudi za ogromne stevilke s to metodo deluje neverjetno hitro.
 
@@ -258,9 +270,9 @@ public class Poker {
 		
 	}
 
-	static double procentovParaZVecVisokimi (int stStevil) {
+	static double procentiParaZVecVisokimi (int stStevil) {
 		
-		return pair(stStevil) - (visokParBrezDodatneVisoke(stStevil) + visokParZEnoDodatnoVisoko(stStevil) + srednjiParBrezDodatneVisoke(stStevil) + srednjiParZEnoDodatnoVisoko(stStevil) + nizkiParBrezDodatneVisoke(stStevil) + nizkiParZEnoDodatnoVisoko(stStevil));
+		return pair(stStevil) - sestevekProcentovParovBrezInZEnoVisoko(stStevil);
 		
 	}
 
@@ -297,208 +309,78 @@ public class Poker {
 
 
 
-	// Izracun mosnosti, da nihce nima neke kombinacije.
-	// Za razlago si poglej zapiske o matematicnem approachu do 5 card stud pokra
+	
 
-	static double potenca (double osnova, long potenca) {
-		if (potenca < 1) {
-			return 0;
-		} else {
-			double zmnozek = 1;
-			for (long i = 0; i < potenca; i++) {
-				zmnozek *= osnova;
-			}
-			return zmnozek;
-		}
-	}
+	
 
-	// moznost da vsaj nekdo od toliko igralcev ima to kombinacijo
-
-	static double nekdoRoyalFlush (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = royalFlush(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoStraightFlush (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = straightFlush(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoFourOfAKind (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = fourOfAKind(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoFullHouse (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = fullHouse(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoFlush (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = flush(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoStraight (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = straight(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoThreeOfAKind (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = threeOfAKind(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoTwoPair (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = twoPair(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoPair (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = pair(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoVisokPairZVisoko (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = visokParZEnoDodatnoVisoko(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoVisokPairBrezVisoke (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = visokParBrezDodatneVisoke(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoSrednjiParZVisoko (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = srednjiParZEnoDodatnoVisoko(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoSrednjiParBrezVisoke (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = srednjiParBrezDodatneVisoke(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoNizekParZVisoko (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = nizkiParZEnoDodatnoVisoko(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
-
-	static double nekdoNizekParBrezVisoke (int stStevil, int stIgralcev) {
-
-		double moznostEnegaIgralca = nizkiParBrezDodatneVisoke(stStevil);
-		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
-		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
-		double vsajNekdoIma = 1 - nihceNima;
-
-		return vsajNekdoIma;
-	}
+	
 
 	// Tu notri bom lahko pisal vsa bodoča izpisovanja, ki morajo po nekem algoritmu vzemati procente ostalih stvari.
 	static void izpisovalnaFunkcija (int stStevil, int stIgralcev) {
 
-		int stKombinacij = 14;
-
-		double[] moznostiZadev = new double[20];
-		moznostiZadev[0] = royalFlush(stStevil);
-		moznostiZadev[1] = straightFlush(stStevil);
-		moznostiZadev[2] = fourOfAKind(stStevil);
-		moznostiZadev[3] = fullHouse(stStevil);
-		moznostiZadev[4] = flush(stStevil);
-		moznostiZadev[5] = straight(stStevil);
-		moznostiZadev[6] = threeOfAKind(stStevil);
-		moznostiZadev[7] = twoPair(stStevil);
-		moznostiZadev[8] = visokParZEnoDodatnoVisoko(stStevil);
-		moznostiZadev[9] = visokParBrezDodatneVisoke(stStevil);
-		moznostiZadev[10] = srednjiParZEnoDodatnoVisoko(stStevil);
-		moznostiZadev[11] = srednjiParBrezDodatneVisoke(stStevil);
-		moznostiZadev[12] = nizkiParZEnoDodatnoVisoko(stStevil);
-		moznostiZadev[13] = nizkiParBrezDodatneVisoke(stStevil);
-
-		double[] kumulativneDoSedaj = new double[20];
-
-		kumulativneDoSedaj[0] = moznostiZadev[0];
-		for (int i = 1; i < stKombinacij; i++) {
-			kumulativneDoSedaj[i] = kumulativneDoSedaj[i-1] + moznostiZadev[i];
-		}
+		System.out.println("Izpisovalna funkcija:");
+		System.out.println();
 
 
-		System.out.println("Kumulativne moznosti od najvisje kombinacije do zdajsnje:");
-		for (int i = 0; i < stKombinacij; i++) {
+
+		double[] moznostiKombinacij = new double[15];
+		moznostiKombinacij[0] = royalFlush(stStevil);
+		moznostiKombinacij[1] = straightFlush(stStevil);
+		moznostiKombinacij[2] = fourOfAKind(stStevil);
+		moznostiKombinacij[3] = fullHouse(stStevil);
+		moznostiKombinacij[4] = flush(stStevil);
+		moznostiKombinacij[5] = straight(stStevil);
+		moznostiKombinacij[6] = threeOfAKind(stStevil);
+		moznostiKombinacij[7] = twoPair(stStevil);
+		moznostiKombinacij[8] = visokParZEnoDodatnoVisoko(stStevil);
+		moznostiKombinacij[9] = visokParBrezDodatneVisoke(stStevil);
+		moznostiKombinacij[10] = procentiParaZVecVisokimi(stStevil);
+		moznostiKombinacij[11] = srednjiParZEnoDodatnoVisoko(stStevil);
+		moznostiKombinacij[12] = srednjiParBrezDodatneVisoke(stStevil);
+		moznostiKombinacij[13] = nizkiParZEnoDodatnoVisoko(stStevil);
+		moznostiKombinacij[14] = nizkiParBrezDodatneVisoke(stStevil);
+
+
+
+		System.out.println("Moznosti vsake kombinacije za enega igralca:");
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
 			if(i == 4)
 				System.out.println("Flush:");
 			if(i == 8)
-				System.out.println("Pari:");
+				System.out.println("Visoki pari z ali brez dodatne visoke:");
+			if(i == 10)
+				System.out.println("Pari z 2 ali 3 visokimi:");
+			if(i == 11)
+				System.out.println("Srednji pari z in brez dodatne visoke in nizki pari z in brez dodatne visoke:");
+
+			System.out.printf("%.9f\n", moznostiKombinacij[i] * 100);
+		}
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+
+
+
+
+		double[] kumulativneDoSedaj = new double[moznostiKombinacij.length];
+
+		kumulativneDoSedaj[0] = moznostiKombinacij[0];
+		for (int i = 1; i < moznostiKombinacij.length; i++) {
+			kumulativneDoSedaj[i] = kumulativneDoSedaj[i-1] + moznostiKombinacij[i];
+		}
+
+
+		System.out.println("Kumulativne moznosti za enega igralca od najvisje kombinacije do zdajsnje:");
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			if(i == 4)
+				System.out.println("Flush:");
+			if(i == 8)
+				System.out.println("Visoki pari z ali brez dodatne visoke:");
+			if(i == 10)
+				System.out.println("Pari z 2 ali 3 visokimi:");
+			if(i == 11)
+				System.out.println("Srednji pari z in brez dodatne visoke in nizki pari z in brez dodatne visoke:");
 
 			System.out.printf("%.9f\n", kumulativneDoSedaj[i] * 100);
 		}
@@ -510,48 +392,77 @@ public class Poker {
 		System.out.println();
 		System.out.println();
 
-		double[] moznostDaNihceNima = new double[20];
+
+
+		// Izracun mosnosti, da nihce nima neke kombinacije.
+		// Za razlago si poglej zapiske o matematicnem approachu do 5 card stud pokra
+
+		double[] moznostDaNihceNimaZnotrajTegaRazreda = new double[moznostiKombinacij.length];
+
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			double procentDaEnIgralecNima = 1 - moznostiKombinacij[i];
+			double procentDaNobenIgralecNima = potenca(procentDaEnIgralecNima, stIgralcev);
+			moznostDaNihceNimaZnotrajTegaRazreda[i] = procentDaNobenIgralecNima;
+		}
+
+		System.out.println("Moznost, da nihce nima znotraj tega razreda:");
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			if(i == 4)
+				System.out.println("Flush:");
+			if(i == 8)
+				System.out.println("Visoki pari z ali brez dodatne visoke:");
+			if(i == 10)
+				System.out.println("Pari z 2 ali 3 visokimi:");
+			if(i == 11)
+				System.out.println("Srednji pari z in brez dodatne visoke in nizki pari z in brez dodatne visoke:");
+
+			System.out.printf("%.9f\n", moznostDaNihceNimaZnotrajTegaRazreda[i] * 100);
+		}
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
 
 
 
 
+		double[] moznostDaVsajNekdoImaZnotrajTegaRazreda = new double[moznostiKombinacij.length];
+
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			moznostDaVsajNekdoImaZnotrajTegaRazreda[i] = 1 - moznostDaNihceNimaZnotrajTegaRazreda[i];
+		}
+
+		System.out.println("Moznost, da vsaj nekdo ima znotraj tega razreda:");
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			if(i == 4)
+				System.out.println("Flush:");
+			if(i == 8)
+				System.out.println("Visoki pari z ali brez dodatne visoke:");
+			if(i == 10)
+				System.out.println("Pari z 2 ali 3 visokimi:");
+			if(i == 11)
+				System.out.println("Srednji pari z in brez dodatne visoke in nizki pari z in brez dodatne visoke:");
+
+			System.out.printf("%.9f\n", moznostDaVsajNekdoImaZnotrajTegaRazreda[i] * 100);
+		}
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+			
 
 
+		
 
-		//tole je poskus kumulativne moznosti, da vsaj nekdo ima. Ampak je napacna metoda, ker ne mores kar sestevat.
+		//zdaj pa kumulativne moznosti, da nekdo ima nekaj visjega
+		double[] k = new double[moznostiKombinacij.length];
 
-
-		// double[] nekdoIma = new double[20];
-		// nekdoIma[0] = nekdoRoyalFlush(stStevil, stIgralcev);
-		// nekdoIma[1] = nekdoStraightFlush(stStevil, stIgralcev);
-		// nekdoIma[2] = nekdoFourOfAKind(stStevil, stIgralcev);
-		// nekdoIma[3] = nekdoFullHouse(stStevil, stIgralcev);
-		// nekdoIma[4] = nekdoFlush(stStevil, stIgralcev);
-		// nekdoIma[5] = nekdoStraight(stStevil, stIgralcev);
-		// nekdoIma[6] = nekdoThreeOfAKind(stStevil, stIgralcev);
-		// nekdoIma[7] = nekdoTwoPair(stStevil, stIgralcev);
-		// nekdoIma[8] = nekdoVisokPairZVisoko(stStevil, stIgralcev);
-		// nekdoIma[9] = nekdoVisokPairBrezVisoke(stStevil, stIgralcev);
-		// nekdoIma[10] = nekdoSrednjiParZVisoko(stStevil, stIgralcev);
-		// nekdoIma[11] = nekdoSrednjiParBrezVisoke(stStevil, stIgralcev);
-		// nekdoIma[12] = nekdoNizekParZVisoko(stStevil, stIgralcev);
-		// nekdoIma[13] = nekdoNizekParBrezVisoke(stStevil, stIgralcev);
-
-		// double[] nekdoImaKumulativno = new double[20];
-
-		// nekdoImaKumulativno[0] = nekdoIma[0];
-		// for (int i = 1; i < stKombinacij; i++) {
-		// 	nekdoImaKumulativno[i] = nekdoImaKumulativno[i-1] + nekdoIma[i];
-		// }
-
-		// for (int i = 0; i < stKombinacij; i++) {
-		// 	if(i == 4)
-		// 		System.out.println("Flush:");
-		// 	if(i == 8)
-		// 		System.out.println("Pari:");
-
-		// 	System.out.printf("%.2f\n", nekdoImaKumulativno[i] * 100);
-		// }
 
 
 
@@ -656,7 +567,7 @@ public class Poker {
 		System.out.println();
 
 		System.out.println("Procent parov z vec visokimi");
-		System.out.printf("%.2f\n", procentovParaZVecVisokimi(stZnakov) * 100);
+		System.out.printf("%.2f\n", procentiParaZVecVisokimi(stZnakov) * 100);
 		System.out.println();
 
 		System.out.println();
@@ -677,72 +588,9 @@ public class Poker {
 		System.out.println();
 		System.out.println();
 		System.out.println();
-		System.out.println("Moznost, da ima nekdo od ostalih igralcev to kombinacijo. \nKombinacije so urejene po padajoci moci.");
-		System.out.println();
+		
 
-		System.out.println("Vsaj nekdo od ostalih ima Royal Flush:");
-		System.out.printf("%.2f\n", nekdoRoyalFlush(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
 
-		System.out.println("Vsaj nekdo od ostalih ima Straight Flush:");
-		System.out.printf("%.2f\n", nekdoStraightFlush(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Four Of A Kind:");
-		System.out.printf("%.2f\n", nekdoFourOfAKind(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Full House:");
-		System.out.printf("%.2f\n", nekdoFullHouse(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Flush:");
-		System.out.printf("%.2f\n", nekdoFlush(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Straight:");
-		System.out.printf("%.2f\n", nekdoStraight(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Three Of A Kind:");
-		System.out.printf("%.2f\n", nekdoThreeOfAKind(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Two Pair:");
-		System.out.printf("%.2f\n", nekdoTwoPair(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Visok Par Z Eno Dodatno Visoko:");
-		System.out.printf("%.2f\n", nekdoVisokPairZVisoko(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Visok Par Brez Dodatne Visoke:");
-		System.out.printf("%.2f\n", nekdoVisokPairBrezVisoke(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Srednji Par Z Dodatno Visoko:");
-		System.out.printf("%.2f\n", nekdoSrednjiParZVisoko(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Srednji Par Brez Dodatne Visoke:");
-		System.out.printf("%.2f\n", nekdoSrednjiParBrezVisoke(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Nizek Par Z Dodatno Visoko:");
-		System.out.printf("%.2f\n", nekdoNizekParZVisoko(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println("Vsaj nekdo od ostalih ima Nizek Par Brez Dodatne Visoke:");
-		System.out.printf("%.2f\n", nekdoNizekParBrezVisoke(stZnakov, stOstalihIgralcev) * 100);
-		System.out.println();
-
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-
-		System.out.println("Kumulativno:");
 		izpisovalnaFunkcija(stZnakov, stOstalihIgralcev);
 
 
