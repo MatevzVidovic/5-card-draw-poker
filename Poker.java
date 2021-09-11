@@ -394,6 +394,16 @@ public class Poker {
 		return vsajNekdoIma;
 	}
 
+	static double nekdoPair (int stStevil, int stIgralcev) {
+
+		double moznostEnegaIgralca = pair(stStevil);
+		double moznostDaEnIgralecNima = 1 - moznostEnegaIgralca;
+		double nihceNima = potenca(moznostDaEnIgralecNima, stIgralcev);
+		double vsajNekdoIma = 1 - nihceNima;
+
+		return vsajNekdoIma;
+	}
+
 	static double nekdoVisokPairZVisoko (int stStevil, int stIgralcev) {
 
 		double moznostEnegaIgralca = visokParZEnoDodatnoVisoko(stStevil);
@@ -452,6 +462,99 @@ public class Poker {
 		double vsajNekdoIma = 1 - nihceNima;
 
 		return vsajNekdoIma;
+	}
+
+	// Tu notri bom lahko pisal vsa bodoča izpisovanja, ki morajo po nekem algoritmu vzemati procente ostalih stvari.
+	static void izpisovalnaFunkcija (int stStevil, int stIgralcev) {
+
+		int stKombinacij = 14;
+
+		double[] moznostiZadev = new double[20];
+		moznostiZadev[0] = royalFlush(stStevil);
+		moznostiZadev[1] = straightFlush(stStevil);
+		moznostiZadev[2] = fourOfAKind(stStevil);
+		moznostiZadev[3] = fullHouse(stStevil);
+		moznostiZadev[4] = flush(stStevil);
+		moznostiZadev[5] = straight(stStevil);
+		moznostiZadev[6] = threeOfAKind(stStevil);
+		moznostiZadev[7] = twoPair(stStevil);
+		moznostiZadev[8] = visokParZEnoDodatnoVisoko(stStevil);
+		moznostiZadev[9] = visokParBrezDodatneVisoke(stStevil);
+		moznostiZadev[10] = srednjiParZEnoDodatnoVisoko(stStevil);
+		moznostiZadev[11] = srednjiParBrezDodatneVisoke(stStevil);
+		moznostiZadev[12] = nizkiParZEnoDodatnoVisoko(stStevil);
+		moznostiZadev[13] = nizkiParBrezDodatneVisoke(stStevil);
+
+		double[] kumulativneDoSedaj = new double[20];
+
+		kumulativneDoSedaj[0] = moznostiZadev[0];
+		for (int i = 1; i < stKombinacij; i++) {
+			kumulativneDoSedaj[i] = kumulativneDoSedaj[i-1] + moznostiZadev[i];
+		}
+
+
+		System.out.println("Kumulativne moznosti od najvisje kombinacije do zdajsnje:");
+		for (int i = 0; i < stKombinacij; i++) {
+			if(i == 4)
+				System.out.println("Flush:");
+			if(i == 8)
+				System.out.println("Pari:");
+
+			System.out.printf("%.9f\n", kumulativneDoSedaj[i] * 100);
+		}
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+
+		double[] moznostDaNihceNima = new double[20];
+
+
+
+
+
+
+
+		//tole je poskus kumulativne moznosti, da vsaj nekdo ima. Ampak je napacna metoda, ker ne mores kar sestevat.
+
+
+		// double[] nekdoIma = new double[20];
+		// nekdoIma[0] = nekdoRoyalFlush(stStevil, stIgralcev);
+		// nekdoIma[1] = nekdoStraightFlush(stStevil, stIgralcev);
+		// nekdoIma[2] = nekdoFourOfAKind(stStevil, stIgralcev);
+		// nekdoIma[3] = nekdoFullHouse(stStevil, stIgralcev);
+		// nekdoIma[4] = nekdoFlush(stStevil, stIgralcev);
+		// nekdoIma[5] = nekdoStraight(stStevil, stIgralcev);
+		// nekdoIma[6] = nekdoThreeOfAKind(stStevil, stIgralcev);
+		// nekdoIma[7] = nekdoTwoPair(stStevil, stIgralcev);
+		// nekdoIma[8] = nekdoVisokPairZVisoko(stStevil, stIgralcev);
+		// nekdoIma[9] = nekdoVisokPairBrezVisoke(stStevil, stIgralcev);
+		// nekdoIma[10] = nekdoSrednjiParZVisoko(stStevil, stIgralcev);
+		// nekdoIma[11] = nekdoSrednjiParBrezVisoke(stStevil, stIgralcev);
+		// nekdoIma[12] = nekdoNizekParZVisoko(stStevil, stIgralcev);
+		// nekdoIma[13] = nekdoNizekParBrezVisoke(stStevil, stIgralcev);
+
+		// double[] nekdoImaKumulativno = new double[20];
+
+		// nekdoImaKumulativno[0] = nekdoIma[0];
+		// for (int i = 1; i < stKombinacij; i++) {
+		// 	nekdoImaKumulativno[i] = nekdoImaKumulativno[i-1] + nekdoIma[i];
+		// }
+
+		// for (int i = 0; i < stKombinacij; i++) {
+		// 	if(i == 4)
+		// 		System.out.println("Flush:");
+		// 	if(i == 8)
+		// 		System.out.println("Pari:");
+
+		// 	System.out.printf("%.2f\n", nekdoImaKumulativno[i] * 100);
+		// }
+
+
+
 	}
 	
 
@@ -632,6 +735,15 @@ public class Poker {
 		System.out.println("Vsaj nekdo od ostalih ima Nizek Par Brez Dodatne Visoke:");
 		System.out.printf("%.2f\n", nekdoNizekParBrezVisoke(stZnakov, stOstalihIgralcev) * 100);
 		System.out.println();
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+
+		System.out.println("Kumulativno:");
+		izpisovalnaFunkcija(stZnakov, stOstalihIgralcev);
 
 
 		
