@@ -2,17 +2,7 @@ import java.util.Scanner;
 
 public class Poker {
 
-	static double potenca (double osnova, long potenca) {
-		if (potenca < 1) {
-			return 0;
-		} else {
-			double zmnozek = 1;
-			for (long i = 0; i < potenca; i++) {
-				zmnozek *= osnova;
-			}
-			return zmnozek;
-		}
-	}
+	
 
 
 	//jaaaaaa!!! Izracun binoma zdaj tudi za ogromne stevilke s to metodo deluje neverjetno hitro.
@@ -23,6 +13,13 @@ public class Poker {
 
 	//pri 1500 se zdijo še v redu rezultati, pri 1600 pa se že začnejo kazati negativne številke
 	//pri 1552 še ni negativnih števil, pri 1553 pa so že
+
+	//ce vzames 1552 kart za 5.000.000 igralcev se vedno deluje (so smiselne stevilke in vidne decimalke).
+	// Za 250.000 igralcev ti izpiše brez vsakega lag-a.
+	// Za manjsa stevila kart tudi cisto v redu dela.
+	//Ker je flush prakticno isto pogost kot prej,
+	// ker imas z vsako karto priblizno 1/4 moznosti, da bo prave barve, je tako, da se kumulativa strmo spremeni pri flushu
+	
 
 	static long factorialOdMaxDoMin (int max, int min) {
 		if (min >= max) {
@@ -44,6 +41,25 @@ public class Poker {
     //     else
     //         return binomi(n - 1, k) + binomi(n - 1, k - 1);
     // }
+
+
+
+
+	static double potenca (double osnova, long potenca) {
+		if (potenca < 1) {
+			return 0;
+		} else {
+			double zmnozek = 1;
+			for (long i = 0; i < potenca; i++) {
+				zmnozek *= osnova;
+			}
+			return zmnozek;
+		}
+	}
+
+
+
+
 
 	static double royalFlush (int stStevil) {
 		//ker ce je stevil manj kot 5, potem ne mores sestaviti straighta.
@@ -334,9 +350,11 @@ public class Poker {
 		moznostiKombinacij[7] = twoPair(stStevil);
 		moznostiKombinacij[8] = visokParZEnoDodatnoVisoko(stStevil);
 		moznostiKombinacij[9] = visokParBrezDodatneVisoke(stStevil);
-		moznostiKombinacij[10] = procentiParaZVecVisokimi(stStevil);
-		moznostiKombinacij[11] = srednjiParZEnoDodatnoVisoko(stStevil);
-		moznostiKombinacij[12] = srednjiParBrezDodatneVisoke(stStevil);
+		moznostiKombinacij[10] = srednjiParZEnoDodatnoVisoko(stStevil);
+		moznostiKombinacij[11] = srednjiParBrezDodatneVisoke(stStevil);
+		// procente para z vec visokimi sem dal sem, ker so priblizno pol casa nizek par, priblizno cetrt srednji par, in priblizno cetrt visok par
+		//in srednji par bo torej v povprecju bolsi od takega hand-a, ker je pol casa boljsi, cetrt casa nevtralno, cetr pa slabsi
+		moznostiKombinacij[12] = procentiParaZVecVisokimi(stStevil);
 		moznostiKombinacij[13] = nizkiParZEnoDodatnoVisoko(stStevil);
 		moznostiKombinacij[14] = nizkiParBrezDodatneVisoke(stStevil);
 
@@ -349,13 +367,19 @@ public class Poker {
 			if(i == 8)
 				System.out.println("Visoki pari z ali brez dodatne visoke:");
 			if(i == 10)
+				System.out.println("Srednji pari z in brez dodatne visoke:");
+			if(i == 12)
 				System.out.println("Pari z 2 ali 3 visokimi:");
-			if(i == 11)
-				System.out.println("Srednji pari z in brez dodatne visoke in nizki pari z in brez dodatne visoke:");
+			if(i==13)
+				System.out.println("Nizki pari z in brez dodatne visoke:");
+				
 
 			System.out.printf("%.9f\n", moznostiKombinacij[i] * 100);
 		}
 
+		System.out.println();
+		System.out.println();
+		System.out.println();
 		System.out.println();
 		System.out.println();
 		System.out.println();
@@ -378,9 +402,11 @@ public class Poker {
 			if(i == 8)
 				System.out.println("Visoki pari z ali brez dodatne visoke:");
 			if(i == 10)
+				System.out.println("Srednji pari z in brez dodatne visoke:");
+			if(i == 12)
 				System.out.println("Pari z 2 ali 3 visokimi:");
-			if(i == 11)
-				System.out.println("Srednji pari z in brez dodatne visoke in nizki pari z in brez dodatne visoke:");
+			if(i==13)
+				System.out.println("Nizki pari z in brez dodatne visoke:");
 
 			System.out.printf("%.9f\n", kumulativneDoSedaj[i] * 100);
 		}
@@ -412,9 +438,11 @@ public class Poker {
 			if(i == 8)
 				System.out.println("Visoki pari z ali brez dodatne visoke:");
 			if(i == 10)
+				System.out.println("Srednji pari z in brez dodatne visoke:");
+			if(i == 12)
 				System.out.println("Pari z 2 ali 3 visokimi:");
-			if(i == 11)
-				System.out.println("Srednji pari z in brez dodatne visoke in nizki pari z in brez dodatne visoke:");
+			if(i==13)
+				System.out.println("Nizki pari z in brez dodatne visoke:");
 
 			System.out.printf("%.9f\n", moznostDaNihceNimaZnotrajTegaRazreda[i] * 100);
 		}
@@ -442,9 +470,11 @@ public class Poker {
 			if(i == 8)
 				System.out.println("Visoki pari z ali brez dodatne visoke:");
 			if(i == 10)
+				System.out.println("Srednji pari z in brez dodatne visoke:");
+			if(i == 12)
 				System.out.println("Pari z 2 ali 3 visokimi:");
-			if(i == 11)
-				System.out.println("Srednji pari z in brez dodatne visoke in nizki pari z in brez dodatne visoke:");
+			if(i==13)
+				System.out.println("Nizki pari z in brez dodatne visoke:");
 
 			System.out.printf("%.9f\n", moznostDaVsajNekdoImaZnotrajTegaRazreda[i] * 100);
 		}
@@ -461,10 +491,71 @@ public class Poker {
 		
 
 		//zdaj pa kumulativne moznosti, da nekdo ima nekaj visjega
-		double[] k = new double[moznostiKombinacij.length];
+		double[] kumulativnoDaNobenIgralecNimaDoTegaRazreda = new double[moznostiKombinacij.length];
+
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			double nasprotniDogodekOdKumultiveDoSedaj = 1 - kumulativneDoSedaj[i];
+			double nihceNimaNicDoSedaj = potenca(nasprotniDogodekOdKumultiveDoSedaj, stIgralcev);
+			kumulativnoDaNobenIgralecNimaDoTegaRazreda[i] = nihceNimaNicDoSedaj;
+		}
+
+		System.out.println("Kumulativna moznost, da noben igralec nima roke iz nobenega razreda od royal flusha do trenutnega:");
+		System.out.println("(Ce imas v tem razredu karte, koliko je moznosti, da zmagas)");
+		System.out.println("(Malo vec je, ker je lahko v tem razredu in ga vseeno premagas. Ampak je to dokaj malo spremembe.)");
+
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			if(i == 4)
+				System.out.println("Flush:");
+			if(i == 8)
+				System.out.println("Visoki pari z ali brez dodatne visoke:");
+			if(i == 10)
+				System.out.println("Srednji pari z in brez dodatne visoke:");
+			if(i == 12)
+				System.out.println("Pari z 2 ali 3 visokimi:");
+			if(i==13)
+				System.out.println("Nizki pari z in brez dodatne visoke:");
+
+			System.out.printf("%.9f\n", kumulativnoDaNobenIgralecNimaDoTegaRazreda[i] * 100);
+		}
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
 
 
 
+
+		double[] kumulativnoDaVsajEnIgralecImaDoTegaRazreda = new double[moznostiKombinacij.length];
+
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			kumulativnoDaVsajEnIgralecImaDoTegaRazreda[i] = 1 - kumulativnoDaNobenIgralecNimaDoTegaRazreda[i];
+		}
+
+		System.out.println("Kumulativna moznost, da ima vsaj en igralec nekaj iz razredov od royal flusha do razreda trenutne kombinacije:");
+		for (int i = 0; i < moznostiKombinacij.length; i++) {
+			if(i == 4)
+				System.out.println("Flush:");
+			if(i == 8)
+				System.out.println("Visoki pari z ali brez dodatne visoke:");
+			if(i == 10)
+				System.out.println("Srednji pari z in brez dodatne visoke:");
+			if(i == 12)
+				System.out.println("Pari z 2 ali 3 visokimi:");
+			if(i==13)
+				System.out.println("Nizki pari z in brez dodatne visoke:");
+
+			System.out.printf("%.9f\n", kumulativnoDaVsajEnIgralecImaDoTegaRazreda[i] * 100);
+		}
+
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
 
 	}
 	
